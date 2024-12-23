@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define thresholds for weather prediction
+#define TEMP_HOT 30
+#define TEMP_COLD 15
+#define HUMID_HIGH 70
+#define HUMID_LOW 30
+#define WIND_HIGH 50
+
+// Function Prototypes
+void getWeatherData(float *temperature, float *humidity, float *windSpeed);
+const char* predictWeather(float temperature, float humidity, float windSpeed);
+void displayWeatherPrediction(const char *prediction);
+
+// Main Function
+int main() {
+    float temperature, humidity, windSpeed;
+    char choice;
+
+    printf("===== Weather Forecast Predictor =====\n");
+
+    do {
+        getWeatherData(&temperature, &humidity, &windSpeed);
+        const char *prediction = predictWeather(temperature, humidity, windSpeed);
+        displayWeatherPrediction(prediction);
+
+        printf("\nDo you want to enter another weather data set? (y/n): ");
+        scanf(" %c", &choice);
+    } while (choice == 'y' || choice == 'Y');
+
+    printf("\nThank you for using the Weather Forecast Predictor. Goodbye!\n");
+    return 0;
+}
+
+// Function to get weather data from the user
+void getWeatherData(float *temperature, float *humidity, float *windSpeed) {
+    printf("\nEnter Temperature (in Celsius): ");
+    scanf("%f", temperature);
+
+    printf("Enter Humidity (in percentage): ");
+    scanf("%f", humidity);
+
+    printf("Enter Wind Speed (in km/h): ");
+    scanf("%f", windSpeed);
+}
+
+// Function to predict weather based on data
+const char* predictWeather(float temperature, float humidity, float windSpeed) {
+    if (temperature > TEMP_HOT && humidity < HUMID_LOW && windSpeed < WIND_HIGH) {
+        return "Sunny";
+    } 
+    else if (humidity > HUMID_HIGH && windSpeed < WIND_HIGH) {
+        return "Rainy";
+    } 
+    else if (windSpeed > WIND_HIGH) {
+        return "Stormy";
+    } 
+    else if (temperature < TEMP_COLD && humidity > HUMID_LOW) {
+        return "Cloudy";
+    } 
+    else {
+        return "Moderate Weather";
+    }
+}
+
+// Function to display the weather prediction
+void displayWeatherPrediction(const char *prediction) {
+    printf("\nWeather Prediction: ");
+    if (strcmp(prediction, "Sunny") == 0) {
+        printf("☀️ It's a bright and sunny day!\n");
+    } 
+    else if (strcmp(prediction, "Rainy") == 0) {
+        printf("🌧️ Expect some rain. Don't forget your umbrella!\n");
+    } 
+    else if (strcmp(prediction, "Stormy") == 0) {
+        printf("⛈️ A storm is coming! Stay indoors.\n");
+    } 
+    else if (strcmp(prediction, "Cloudy") == 0) {
+        printf("☁️ It's a cloudy day. Might rain later.\n");
+    } 
+    else {
+        printf("🌤️ The weather is moderate and pleasant.\n");
+    }
+}
